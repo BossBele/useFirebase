@@ -1,3 +1,5 @@
 import { AuthProvider, useAuth } from './useAuth'
+import { FirestoreProvider, useFirestore } from './useFirestore'
 
-export { AuthProvider, useAuth }
+// expose Auth and Firestore providers and hooks
+export { AuthProvider, useAuth, FirestoreProvider, useFirestore }
