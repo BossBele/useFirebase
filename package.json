@@ -1,0 +1,25 @@
+{
+  "name": "usefirebase",
+  "version": "1.0.0",
+  "description": "Lightweight and Optimal way to use firebase in React.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/BossBele/useFirebase"
+  },
+  "keywords": [
+    "firebase",
+    "firestore",
+    "auth",
+    "storage",
+    "database",
+    "realtime",
+    "database",
+    "db"
+  ],
+  "author": "BossBele",
+  "license": "ISC"
+}
