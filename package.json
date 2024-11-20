@@ -6,8 +6,7 @@
   "license": "MIT",
   "repository": "BossBele/firebomb",
   "main": "dist/index.js",
-  "module": "dist/index.modern.js",
-  "source": "src/index.js",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
   },
@@ -45,13 +44,14 @@
     "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1"
+    "react-scripts": "^3.4.1",
+    "typescript": "^5.6.3"
   },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "firebase": "^9.8.0",
+    "firebase": "^11.0.2",
     "nookies": "^2.5.2"
   }
 }
