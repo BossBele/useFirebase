@@ -1,5 +1,5 @@
-import { getAuth, signOut as signOutFB } from 'firebase/auth';
-import { signOut } from './types';
+import { signOut as signOutFB } from 'firebase/auth';
+import getAuth from "./getAuth";
 
 export default async function signOut(): Promise<void> {
   const auth = getAuth();
