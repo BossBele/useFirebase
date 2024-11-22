@@ -1,15 +1,10 @@
-import { doc, getDoc } from 'firebase/firestore';
-import getFirestore from './getFirestore';
-import { GenericObject, IGetDocumentsOptions } from './types';
+import getDocumentByRef from './getDocumentByRef';
+import getDocumentRef from './getDocumentRef';
+import { GenericObject } from './types';
 
-export default async function getDocument(collection: string, documentId: string, options: IGetDocumentsOptions): Promise<GenericObject|null> {
-  const firestore = getFirestore();
+export default async function getDocument(collection: string, documentId: string): Promise<GenericObject|null> {
+  const docRef = getDocumentRef(collection, documentId);
+  const docData = await getDocumentByRef(docRef);
 
-  const docRef = doc(firestore, collection, documentId);
-  const docSnap = await getDoc(docRef);
-
-  if (!docSnap.exists()) {
-    return null;
-  }
-  return ({ ...docSnap.data(), id: docSnap.id });
+  return docData;
 }
