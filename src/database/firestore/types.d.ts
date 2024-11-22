@@ -33,6 +33,8 @@ export type whereBy = {
   value: any
 };
 
+export type whereOr = whereBy;
+
 export type orderBy = {
   field: string,
   direction: OrderByDirection,
@@ -40,6 +42,13 @@ export type orderBy = {
 
 export interface IGetDocumentsOptions {
   whereBy: whereBy[],
+  whereOr: whereOr[],
   orderBy: orderBy[],
   limit: number,
+}
+
+export interface IUseCount {
+  collection: string,
+  constraints?: IGetDocumentsOptions,
+  enabled: boolean,
 }
