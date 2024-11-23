@@ -1,5 +1,10 @@
 export interface FirebombOptions {
   /**
+   * use this to enable Firebase Auth
+   * @default true
+   */
+  useAuth?: boolean,
+  /**
    * use this to enable Firebase Analytics
    */
   useAnalytics?: boolean,

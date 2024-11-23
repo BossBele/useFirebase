@@ -1,5 +1,6 @@
 import { initializeApp, getApps, FirebaseOptions } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { getFunctions } from 'firebase/functions';
@@ -8,11 +9,15 @@ import { FirebombOptions } from './types';
 
 export default function init(
   clientCredentials: FirebaseOptions,
-  { useFirestore = true, ...options}: FirebombOptions,
+  { useAuth = true, useFirestore = true, ...options}: FirebombOptions,
 ) {
   // Check that `window` is in scope for the modules!
   if (typeof window !== 'undefined' && !getApps().length) {
     const app = initializeApp(clientCredentials);
+
+    if (useAuth) {
+      getAuth(app);
+    }
 
     if (useFirestore) {
       getFirestore(app);
