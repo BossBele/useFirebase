@@ -1,6 +1,6 @@
 {
   "name": "firebomb",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Lightweight and Optimal way to use firebase in React.",
   "author": "BossBele",
   "license": "MIT",
@@ -11,9 +11,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
-    "prepare": "run-s build",
+    "build": "tsc --build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",
@@ -51,7 +49,7 @@
     "dist"
   ],
   "dependencies": {
-    "firebase": "^11.0.2",
-    "nookies": "^2.5.2"
+    "@boiseitguru/cookie-cutter": "^0.2.3",
+    "firebase": "^11.0.2"
   }
 }
