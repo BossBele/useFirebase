@@ -1,4 +1,4 @@
-import { OrderByDirection, QueryCompositeFilterConstraint, QueryFieldFilterConstraint, QueryNonFilterConstraint, WhereFilterOp } from "firebase/firestore";
+import { OrderByDirection, WhereFilterOp } from "firebase/firestore";
 
 export type PersistenceType = 'context' | 'local' | 'session' | 'none';
 export enum PersistenceTypes {
