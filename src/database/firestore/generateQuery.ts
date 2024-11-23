@@ -1,4 +1,4 @@
-import { collection as collectionFB, query as queryFB, where, orderBy as orderByFB, QueryConstraint, limit, Query, or, QueryCompositeFilterConstraint, QueryNonFilterConstraint, QueryFieldFilterConstraint } from 'firebase/firestore';
+import { collection as collectionFB, query as queryFB, where, orderBy as orderByFB, limit, Query, or, QueryFieldFilterConstraint } from 'firebase/firestore';
 import getFirestore from './getFirestore';
 import { IGetDocumentsOptions } from './types';
 
