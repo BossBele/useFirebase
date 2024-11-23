@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState
 } from 'react'
-import nookies from 'nookies'
+import cookie from '@boiseitguru/cookie-cutter';
 import { getIdTokenResult, onIdTokenChanged } from 'firebase/auth';
 import getAuth from "./getAuth";
 
@@ -43,12 +43,12 @@ export default function Provider({ children }) {
         if (!user) {
           setUser(null);
           setClaims(null);
-          nookies.set(undefined, 'token', '', { path: '/' });
+          cookie.set('token', '', { path: '/', secure: true });
         } else {
           const { token, claims: userClaims } = await getIdTokenResult(user);
           setUser(user);
           setClaims(userClaims);
-          nookies.set(undefined, 'token', token, { path: '/' });
+          cookie.set('token', token, { path: '/', secure: true });
         }
       }),
     []
