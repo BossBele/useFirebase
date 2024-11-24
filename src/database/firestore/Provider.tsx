@@ -4,8 +4,6 @@ import React, {
   useMemo,
   useState
 } from 'react';
-import { getApps } from 'firebase/app';
-import { onSnapshot } from 'firebase/firestore';
 import { retrieveItem, storeItem } from './types';
 
 /**
@@ -13,13 +11,13 @@ import { retrieveItem, storeItem } from './types';
  */
 export const FirestoreContext = createContext({
   store: {},
-  storeItem: () => null,
-  retrieveItem: () => null
+  storeItem: (key: string, i) => null,
+  retrieveItem: (key: string) => null
 });
 
 export default function Provider({ children }) {
   const [store, setStore] = useState({});
-  
+
   const storeItem = useCallback<storeItem>((collection, docs) => {
     if (!store[collection] || !store[collection].length !== docs.length) {
       setStore((prevStore) => ({
@@ -28,11 +26,11 @@ export default function Provider({ children }) {
       }));
     }
   }, [store]);
-  
+
   const retrieveItem = useCallback<retrieveItem>((queryKey) => {
     return store[queryKey];
   }, [store]);
-  
+
   const value = useMemo(
     () => ({
       store,
