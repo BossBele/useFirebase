@@ -1,9 +1,8 @@
 import {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
-import { getCountFromServer } from 'firebase/firestore';
 import { getApps } from 'firebase/app';
-import generateQuery from './generateQuery';
+import getDocumentsCount from './getDocumentsCount';
 
 export default function useCount(props) {
   const {
@@ -28,10 +27,7 @@ export default function useCount(props) {
       return;
     }
 
-    const query = generateQuery(collection, constraints);
-
-    const snapshot = await getCountFromServer(query);
-    const recordsCount = snapshot.data().count;
+    const recordsCount = await getDocumentsCount(collection, constraints);
     setCount(recordsCount);
     setIsCounted(true);
   }, [
