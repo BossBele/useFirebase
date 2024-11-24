@@ -37,8 +37,8 @@ export default function Provider({ children }) {
 
   // listen for token changes
   // call setUser and write new token as a cookie
-  useEffect(
-    () =>
+  useEffect(() => {
+    if (auth && onIdTokenChanged) {
       onIdTokenChanged(auth, async (user) => {
         if (!user) {
           setUser(null);
@@ -50,9 +50,9 @@ export default function Provider({ children }) {
           setClaims(userClaims);
           cookie.set('token', token, { path: '/', secure: true });
         }
-      }),
-    []
-  );
+      });
+    }
+  }, []);
 
   // force refresh the token every 60 minutes
   useEffect(() => {
