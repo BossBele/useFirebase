@@ -52,3 +52,6 @@ export interface IUseCount {
   constraints?: IGetDocumentsOptions,
   enabled: boolean,
 }
+
+export type setDocument = (collection: string, documentId: string, form: GenericObject) => Promise<string>;
+export type addDocument = (collection: string, form: GenericObject) => Promise<string>;
