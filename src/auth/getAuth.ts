@@ -1,7 +1,11 @@
 import { Auth, getAuth as getAuthFB } from 'firebase/auth';
+import { FirebaseApp } from 'firebase/app';
+import { getApp } from '../';
 
-const auth = getAuthFB();
-
-export default function getAuth(): Auth {
-  return auth;
+export default function getAuth(app?: FirebaseApp): Auth|null {
+  if (getApp()) {
+    const auth = getAuthFB(app);
+    return auth;
+  }
+  return null;
 }
