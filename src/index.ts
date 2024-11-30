@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 let Module;
 
 if (typeof process !== "undefined" && ((process.versions && process.versions.node) || process.env.RUNTIME_ENV === 'node')) {
