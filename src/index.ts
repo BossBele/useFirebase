@@ -1,30 +1,11 @@
-export { default as init } from './init';
-export { default as getApp } from './getApp';
+let Module;
 
-export {
-  AuthProvider,
-  useAuth,
-  getAuth,
-  getCurrentUser,
-  getEmailAuthCredential,
-  getTenant,
-  getToken,
-  sendPasswordResetEmail,
-  setTenant,
-  signIn,
-  signOut,
-} from './auth';
+if (typeof process !== "undefined" && ((process.versions && process.versions.node) || process.env.RUNTIME_ENV === 'node')) {
+  // console.log("Running in node.js environment");
+  Module = require('./admin');
+} else {
+  // console.log("Running in browser environment");
+  Module = require('./web');
+}
 
-export {
-  FirestoreProvider,
-  generateQuery,
-  getDocument,
-  getDocuments,
-  getFirestore,
-  useCollection,
-  useCount,
-  useDocument,
-  useFirestore,
-} from './database/firestore';
-
-export { callFunction } from './functions';
+export default Module;
