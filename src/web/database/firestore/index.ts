@@ -3,6 +3,7 @@ export { default as getFirestore } from './getFirestore';
 export { default as FirestoreProvider  } from './Provider';
 export { default as getCollectionRef } from './getCollectionRef';
 export { default as getDocument } from './getDocument';
+export { default as getDocumentBy } from './getDocumentBy';
 export { default as getDocumentRef } from './getDocumentRef';
 export { default as getDocuments } from './getDocuments';
 export { default as getDocumentsCount } from './getDocumentsCount';
