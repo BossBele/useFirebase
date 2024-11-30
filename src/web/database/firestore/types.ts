@@ -41,10 +41,10 @@ export type orderBy = {
 };
 
 export interface IGetDocumentsOptions {
-  whereBy: whereBy[],
-  whereOr: whereOr[],
-  orderBy: orderBy[],
-  limit: number,
+  whereBy?: whereBy[],
+  whereOr?: whereOr[],
+  orderBy?: orderBy[],
+  limit?: number,
 }
 
 export interface IUseCount {
