@@ -7,11 +7,12 @@ export async function setDocument(collection: string, form: GenericObject): Prom
 export async function setDocument(collection: string, documentId: string, form: GenericObject): Promise<string>;
 
 /**
+ * @function setDocument
  * Set a document in a collection
- * @param collection - The collection name
- * @param arg2 - The documentId or form object; if form is provided, a document with random id be created
- * @param form - The form to set/update if documentId is provided
- * @returns {string} - The documentId
+ * @param {string} collection - The collection name
+ * @param {string|GenericObject} arg2 - The documentId or form object; if form is provided, a document with random id be created
+ * @param {GenericObject} [form] - The form to set/update if documentId is provided
+ * @returns {Promise<string>} - The documentId
  */
 export default async function setDocument(collection: string, arg2: string|GenericObject, form?: GenericObject): Promise<string> {
   let refId = typeof arg2 === 'string' ? arg2 : '';
