@@ -45,11 +45,17 @@
     "react-scripts": "^4.0.3",
     "typescript": "^5.6.3"
   },
-  "files": [
-    "dist"
-  ],
   "dependencies": {
     "@boiseitguru/cookie-cutter": "^0.2.3",
-    "firebase": "^11.0.2"
+    "firebase": "^11.0.2",
+    "firebase-admin": "^13.0.1"
+  },
+  "files": [
+    "dist",
+    "admin"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./admin": "./admin/index.js"
   }
 }
