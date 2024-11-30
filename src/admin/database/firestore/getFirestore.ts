@@ -1,4 +1,4 @@
-import { App } from "firebase-admin/app";
+import type { App } from "firebase-admin/app";
 import { Firestore, getFirestore as getFirestoreFB } from "firebase-admin/firestore";
 
 export function getFirestore(): Firestore;
