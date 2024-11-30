@@ -16,3 +16,7 @@ if (!admin.apps.length) {
 }
 
 export default admin;
+
+export * from './auth';
+export * from './database/firestore';
+export * from './messaging';
