@@ -4,15 +4,16 @@ const admin = require('firebase-admin');
 // firebase private key
 const serviceAccount = JSON.parse(process.env.FB_SERVICE_ACCOUNT_KEY);
 //
-const adminConfig = {
+const adminConfig: {[key: string]: any} = {
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: process.env.FB_DATABASE_URL,
 };
 
+if (process.env.FB_DATABASE_URL) {
+  adminConfig.databaseURL = process.env.FB_DATABASE_URL;
+}
+
 if (!admin.apps.length) {
-  // default app
-  const defaultConfig = JSON.parse(process.env.FB_TOKEN || '{}');
-  admin.initializeApp({ ...defaultConfig, ...adminConfig });
+  admin.initializeApp(adminConfig);
 }
 
 export default admin;
