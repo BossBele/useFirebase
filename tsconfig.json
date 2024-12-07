@@ -14,10 +14,7 @@
     "isolatedModules": true,            // Better compatibility with babel
     "resolveJsonModule": true,          // Allow importing JSON files
     "sourceMap": true,                  // Generate source maps for debugging
-    "rootDir": "./src",
-    "composite": true,
     "declarationMap": true,
-    "preserveSymlinks": true,
     // Update lib to include additional necessary APIs
     "lib": [
       "es2019",
@@ -25,17 +22,11 @@
       "dom.iterable",
       "esnext"
     ],
-    "paths": {
-      "firebomb": ["./src/index"],
-      "firebomb/admin": ["./src/admin/index"],
-      "firebomb/web": ["./src/web/index"]
-    }
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "dist",
     "node_modules",
     "**/*.test.ts",
     "**/*.test.tsx"
