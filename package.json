@@ -1,6 +1,6 @@
 {
   "name": "firebomb",
-  "version": "2.0.10-beta",
+  "version": "2.0.11-beta",
   "description": "Lightweight and Optimal way to use firebase in React.",
   "author": "BossBele",
   "license": "MIT",
@@ -63,10 +63,6 @@
     },
     "./web": {
       "types": "./dist/web/index.d.ts",
-      "node": {
-        "require": "./dist/web/index.cjs.js",
-        "import": "./app/dist/index.mjs"
-      },
       "browser": {
         "require": "./dist/web/index.js",
         "import": "./dist/web/index.js"
