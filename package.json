@@ -1,6 +1,6 @@
 {
   "name": "firebomb",
-  "version": "2.0.7-beta",
+  "version": "2.0.8-beta",
   "description": "Lightweight and Optimal way to use firebase in React.",
   "author": "BossBele",
   "license": "MIT",
@@ -53,10 +53,12 @@
   },
   "files": [
     "dist",
-    "admin"
+    "admin",
+    "web"
   ],
   "exports": {
     ".": "./dist/index.js",
-    "./admin": "./admin/index.js"
+    "./admin": "./dist/web/index.js",
+    "./web": "./dist/admin/index.js"
   }
 }
