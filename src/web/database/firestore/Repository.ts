@@ -1,21 +1,7 @@
 import getDocuments from "./getDocuments";
 import getDocumentsCount from "./getDocumentsCount";
-import { GenericObject, IGetDocumentsOptions } from "./types";
-import { BaseDocument, DocumentModelInstance, createModel } from "./Model";
-
-// Interface for the class implementation
-interface ICollectionModel {
-  getName(): string;
-  getSchema(): GenericObject;
-  getConstraints(): IGetDocumentsOptions;
-  withConstraints(constraints: IGetDocumentsOptions): this;
-  whereBy(constraint: IGetDocumentsOptions['whereBy']): this;
-  whereOr(constraint: IGetDocumentsOptions['whereOr']): this;
-  orderBy(constraint: IGetDocumentsOptions['orderBy']): this;
-  limit(constraint: IGetDocumentsOptions['limit']): this;
-  getCount(): Promise<number>;
-  getDocuments(): Promise<GenericObject[]>;
-}
+import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionModel, IGetDocumentsOptions } from "./types";
+import { createModel } from "./Model";
 
 class CollectionModel implements ICollectionModel {
   [key: string]: any;
