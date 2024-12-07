@@ -1,66 +1,10 @@
-import { Timestamp, FieldValue } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import setDocument from "./setDocument";
-import { GenericObject } from "./types";
-
-// Base document interface that all Firestore docs should extend
-interface BaseDocument {
-  id: string;
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
-}
+import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModel } from "./types";
 
 // Type guard for Firestore timestamp
 function isFirestoreTimestamp(value: any): value is Timestamp {
   return value && typeof value === 'object' && 'seconds' in value && 'nanoseconds' in value;
-}
-
-// Interface for the class implementation
-interface IDocumentModel<T extends BaseDocument> {
-  /**
-   * Gets the collection name of the document
-   */
-  getCollection(): string;
-  /**
-   * Gets the id of the document
-   */
-  getId(): string;
-  /**
-   * Sets the id for the document
-   * @param value - The id to set for the document
-   */
-  setId(value: string): void;
-  /**
-   * Gets the changes made to the document as JSON object
-   */
-  getChanges(): Partial<T>;
-  /**
-   * Resets the changes made to the document
-   */
-  resetChanges(): void;
-  /**
-   * Checks if any of the document fields have changed
-   */
-  hasChanged(): boolean;
-  /**
-   * Checks if the specified fields have changed
-   * @param fields - List of fields to check if they have changed
-   */
-  hasFieldsChanged(...fields: string[]): boolean;
-  /**
-   * Commits the changes to the Firestore document
-   * Adds a new document if the document does not exist, updates if exists
-   * If id was not set, a document with random firestore Id be created
-   * @returns - The updated document data or false if no changes were made
-   */
-  commit(): Promise<GenericObject|false>;
-  /**
-   * Converts the document data to a JSON object
-   */
-  toJSON(): GenericObject;
-  /**
-   * Converts the document data to a JSON string
-   */
-  toString(): string;
 }
 
 class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
@@ -173,11 +117,6 @@ class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
   }
 }
 
-// Type for the instance with all properties
-type DocumentModelInstance<T extends BaseDocument> = {
-  [key: string]: FieldValue;
-} & IDocumentModel<T>;
-
 /**
  * @example
  * // Declare the JavaScript object to be used as the schema
@@ -213,9 +152,6 @@ function createModel<T>(collection: string, schema: Partial<T>, data?: GenericOb
 }
 
 export { 
-  DocumentModel, 
-  createModel, 
-  type DocumentModelInstance, 
-  type IDocumentModel, 
-  type BaseDocument 
+  DocumentModel,
+  createModel,
 };
