@@ -9,7 +9,7 @@ import generateQuery from "./generateQuery";
  * @param {IDocumentsQueryOptions} options
  * @returns {Promise<GenericObject[]>}
  */
-export default async function getDocuments(collection: string, options: IDocumentsQueryOptions): Promise<GenericObject[]> {
+export default async function getDocuments(collection: string, options?: IDocumentsQueryOptions): Promise<GenericObject[]> {
   const documents = [];
 
   const query = generateQuery(collection, options);
