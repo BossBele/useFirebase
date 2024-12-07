@@ -6,7 +6,7 @@ import getFirestore from "./getFirestore";
  * @param {string} collection
  * @returns {Promise<string[]>}
  */
-export default async function getDocumentsIds(collection: string) {
+export default async function getDocumentsIds(collection: string): Promise<string[]> {
   const firestore = getFirestore();
   const store = firestore.collection(collection);
 
