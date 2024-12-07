@@ -5,13 +5,14 @@ import { getApps } from 'firebase/app';
 import { onSnapshot } from 'firebase/firestore';
 import getDocumentByRef from './getDocumentByRef';
 import getDocumentRef from './getDocumentRef';
+import { IUseDocument, IUseDocumentValue } from './types';
 
 export default function useDocument({
   collection,
   documentId,
   enabled = true,
   withRealtimeUpdates = true,
-}) {
+}: IUseDocument): IUseDocumentValue {
   const unsubscribeFn = useRef(null);
 
   const [record, setRecord] = useState(null);
