@@ -6,7 +6,7 @@ import {
 } from 'react';
 import { getApps } from 'firebase/app';
 import { getDocs, onSnapshot, Query } from 'firebase/firestore';
-import { IUseCollection } from './types';
+import { IUseCollection, IUseCollectionValue } from './types';
 import useFirestore from './useFirestore';
 import { checkPersistenceSupport, getSessionItem, getStorage, setSessionItem, setStorage } from '../../utils';
 import generateQuery from './generateQuery';
@@ -17,7 +17,7 @@ export default function useCollection({
     persistence = 'context',
     withRealtimeUpdates = true,
     constraints
-}: IUseCollection) {
+}: IUseCollection): IUseCollectionValue {
   const { store, storeItem } = useFirestore();
 
   const [isFetching, setIsFetching] = useState(false);
