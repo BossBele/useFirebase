@@ -25,6 +25,8 @@ export {
   useCount,
   useDocument,
   useFirestore,
+  createModel,
+  createRepository,
 } from './database/firestore';
 
 export { callFunction } from './functions';
