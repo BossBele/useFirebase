@@ -3,8 +3,9 @@ import {
 } from 'react';
 import { getApps } from 'firebase/app';
 import getDocumentsCount from './getDocumentsCount';
+import { IUseCount, IUseCountValue } from './types';
 
-export default function useCount(props) {
+export default function useCount(props: IUseCount): IUseCountValue {
   const {
     collection,
     constraints,
