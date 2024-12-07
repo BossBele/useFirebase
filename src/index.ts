@@ -1,13 +1,18 @@
+import type { AdminModule } from "./admin/types";
+import type { WebModule } from "./web/types";
+
 require('dotenv').config();
 
-let Module;
+let Module: WebModule|AdminModule;
 
 if (typeof process !== "undefined" && ((process.versions && process.versions.node) || process.env.RUNTIME_ENV === 'node')) {
   // console.log("Running in node.js environment");
-  Module = require('./admin');
+  /** @var {AdminModule} */
+  Module = require('./admin') as AdminModule;
 } else {
   // console.log("Running in browser environment");
-  Module = require('./web');
+  /** @var {WebModule} */
+  Module = require('./web') as WebModule;
 }
 
 export default Module;
