@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "module": "commonjs",
     "target": "es2019",
     "declaration": true,
@@ -22,6 +23,14 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "web": [
+        "./dist/web/index.js"
+      ],
+      "admin": [
+        "./dist/admin/index.js"
+      ]
+    }
   },
   "include": [
     "src/**/*",
