@@ -1,23 +1,23 @@
 import { Timestamp } from "firebase/firestore";
 import setDocument from "./setDocument";
-import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModel } from "./types";
+import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModelClass } from "./types";
 
 // Type guard for Firestore timestamp
 function isFirestoreTimestamp(value: any): value is Timestamp {
   return value && typeof value === 'object' && 'seconds' in value && 'nanoseconds' in value;
 }
 
-class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
+class DocumentModel implements IDocumentModelClass {
   [key: string]: any;
   private collection: string;
   private id?: string;
   private data: GenericObject;
-  private schema: Partial<T>;
+  private schema: GenericObject;
   private changedFields: Set<string>;
 
-  constructor(collection: string, structure: Partial<T>, data?: GenericObject) {
+  constructor(collection: string, structure: GenericObject, data?: GenericObject) {
     const { id, ...rest } = structure;
-    const schema = rest as Partial<T>;
+    const schema = rest;
 
     this.collection = collection;
     this.id = id;
@@ -27,7 +27,7 @@ class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
     this.generateAccessors();
   }
 
-  private isExistentField(key: string|number|symbol): boolean {
+  private isExistentField(key: string|number): boolean {
     return typeof this.schema[key] !== 'undefined';
   }
 
@@ -44,7 +44,7 @@ class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
     }
   }
 
-  private getValue<K extends keyof T>(key: string): T[K] | undefined {
+  private getValue<K extends keyof GenericObject>(key: string): GenericObject[K] | undefined {
     const value = this.data[key];
 
     // if field does not exist in schema, throw an error
@@ -59,7 +59,7 @@ class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
     return value;
   }
 
-  private setValue<K extends keyof T>(key: string, value: T[K]) {
+  private setValue<K extends keyof GenericObject>(key: string, value: GenericObject[K]) {
     if (this.isExistentField(key)) {
       throw new Error(`Field '${key as string}' does not exist in the schema`);
     }
@@ -79,8 +79,8 @@ class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
     this.id = value;
   }
 
-  public getChanges(): Partial<T> {
-    const changes: Partial<T> = {};
+  public getChanges(): GenericObject {
+    const changes: GenericObject = {};
     this.changedFields.forEach((key) => {
       changes[key] = this.data[key];
     });
@@ -144,11 +144,12 @@ class DocumentModel<T extends BaseDocument> implements IDocumentModel<T> {
  * @param data - Optional data to be used to populate the model
  * @returns - A new instance of the DocumentModel class
  */
-function createModel<T>(collection: string, schema: Partial<T>, data?: GenericObject): DocumentModelInstance<BaseDocument & typeof data> {
+function createModel<T>(collection: string, schema: Partial<T>, data?: GenericObject): DocumentModelInstance<BaseDocument & typeof schema> {
   type DataType = typeof schema;
   type DataDoc = BaseDocument & DataType;
+
   // interface DataDoc extends BaseDocument, DataType {}
-  return new DocumentModel<DataDoc>(collection, { ...schema, id: '' }, data) as DocumentModelInstance<DataDoc>;
+  return new DocumentModel(collection, { ...schema as GenericObject, id: '' }, data) as unknown as DocumentModelInstance<DataDoc>;
 }
 
 export { 
