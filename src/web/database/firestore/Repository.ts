@@ -18,6 +18,7 @@ class CollectionModel<T> implements ICollectionModel<T> {
     this.name = name;
     this.schema = schema;
     this.count = 0;
+    this.constraints = {};
     this.documents = [];
   }
 
