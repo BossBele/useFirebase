@@ -3,10 +3,10 @@ import getDocumentsCount from "./getDocumentsCount";
 import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionModel, IGetDocumentsOptions } from "./types";
 import { createModel } from "./Model";
 
-class CollectionModel implements ICollectionModel {
+class CollectionModel<T> implements ICollectionModel<T> {
   [key: string]: any;
   private name: string;
-  private schema: GenericObject;
+  private schema: Partial<T>;
   private constraints?: IGetDocumentsOptions;
   private documents: GenericObject[];
   private model?: GenericObject;
@@ -14,7 +14,7 @@ class CollectionModel implements ICollectionModel {
   private hasBeenCounted?: boolean;
   private hasBeenFetched?: boolean;
 
-  constructor(name: string, schema: GenericObject) {
+  constructor(name: string, schema: Partial<T>) {
     this.name = name;
     this.schema = schema;
     this.count = 0;
@@ -39,7 +39,7 @@ class CollectionModel implements ICollectionModel {
     return this.name;
   }
 
-  public getSchema(): GenericObject {
+  public getSchema(): Partial<T> {
     return this.schema;
   }
 
@@ -90,13 +90,12 @@ class CollectionModel implements ICollectionModel {
     return this.documents;
   }
 
-  private setDocuments(documents: GenericObject[]): void {
-    this.documents = documents;
+  public Manager<T>(): DocumentModelInstance<BaseDocument & Partial<T>> {
+    return createModel(this.name, this.schema) as unknown as DocumentModelInstance<BaseDocument & Partial<T>>;
   }
 
-  // Document Manager
-  public Manager(): DocumentModelInstance<BaseDocument & GenericObject> {
-    return createModel(this.name, this.schema);
+  private setDocuments(documents: GenericObject[]): void {
+    this.documents = documents;
   }
 }
 
@@ -115,11 +114,11 @@ class CollectionModel implements ICollectionModel {
  * @param schema - A javascript object that represents the schema of the collection
  * @returns A new class that extends CollectionModel
  */
-function createRepository (name: string, schema: GenericObject): new () => ICollectionModel {
-  return class Repository extends CollectionModel {
+function createRepository<T>(name: string, schema: Partial<T>): new () => ICollectionModel<T> {
+  return class Repository extends CollectionModel<T> {
     constructor() {
       super(name, schema);
-      return new CollectionModel(name, schema);
+      return new CollectionModel<T>(name, schema);
     }
   };
 }
