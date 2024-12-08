@@ -81,74 +81,84 @@ export interface IUseCountValue {
 export type setDocument = (collection: string, documentId: string, form: GenericObject) => Promise<string>;
 export type addDocument = (collection: string, form: GenericObject) => Promise<string>;
 
-export interface ICollectionModel {
-  getName(): string;
-  getSchema(): GenericObject;
-  getConstraints(): IGetDocumentsOptions;
-  withConstraints(constraints: IGetDocumentsOptions): this;
-  whereBy(constraint: IGetDocumentsOptions['whereBy']): this;
-  whereOr(constraint: IGetDocumentsOptions['whereOr']): this;
-  orderBy(constraint: IGetDocumentsOptions['orderBy']): this;
-  limit(constraint: IGetDocumentsOptions['limit']): this;
-  getCount(): Promise<number>;
-  getDocuments(): Promise<GenericObject[]>;
-}
-
 // Base document interface that all Firestore docs should extend
 export interface BaseDocument {
-  id: string;
-  createdAt?: Timestamp;
-  updatedAt?: Timestamp;
+  id: string,
+  createdAt?: Timestamp,
+  updatedAt?: Timestamp,
 }
 
-export interface IDocumentModel<T extends BaseDocument> {
+export type ObjectMappings<T> = BaseDocument & {
+  [K in keyof T]: T[K];
+}
+
+export interface BaseDocumentModel {
   /**
    * Gets the collection name of the document
    */
-  getCollection(): string;
+  getCollection(): string,
   /**
    * Gets the id of the document
    */
-  getId(): string;
+  getId(): string,
   /**
    * Sets the id for the document
    * @param value - The id to set for the document
    */
-  setId(value: string): void;
+  setId(value: string): void,
   /**
    * Gets the changes made to the document as JSON object
    */
-  getChanges(): Partial<T>;
+  getChanges(): Partial<GenericObject>,
   /**
    * Resets the changes made to the document
    */
-  resetChanges(): void;
+  resetChanges(): void,
   /**
    * Checks if any of the document fields have changed
    */
-  hasChanged(): boolean;
+  hasChanged(): boolean,
   /**
    * Checks if the specified fields have changed
    * @param fields - List of fields to check if they have changed
    */
-  hasFieldsChanged(...fields: string[]): boolean;
+  hasFieldsChanged(...fields: string[]): boolean,
   /**
    * Commits the changes to the Firestore document
    * Adds a new document if the document does not exist, updates if exists
    * If id was not set, a document with random firestore Id be created
    * @returns - The updated document data or false if no changes were made
    */
-  commit(): Promise<GenericObject|false>;
+  commit(): Promise<GenericObject|false>,
   /**
    * Converts the document data to a JSON object
    */
-  toJSON(): GenericObject;
+  toJSON(): GenericObject,
   /**
    * Converts the document data to a JSON string
    */
-  toString(): string;
+  toString(): string,
 }
 
+export type IDocumentModel<T> = BaseDocumentModel & Omit<ObjectMappings<T>, 'id'>;
+export type IDocumentModelClass = BaseDocumentModel & GenericObject;
+
 export type DocumentModelInstance<T extends BaseDocument> = {
-  [key: string]: FieldValue;
+  [K in keyof T]: T[K];
+} & {
+  [key: string]: FieldValue; // Allow additional fields with `FieldValue` type.
 } & IDocumentModel<T>;
+
+export interface ICollectionModel<T> {
+  getName(): string,
+  getSchema(): GenericObject,
+  getConstraints(): IGetDocumentsOptions,
+  withConstraints(constraints: IGetDocumentsOptions): this,
+  whereBy(constraint: IGetDocumentsOptions['whereBy']): this,
+  whereOr(constraint: IGetDocumentsOptions['whereOr']): this,
+  orderBy(constraint: IGetDocumentsOptions['orderBy']): this,
+  limit(constraint: IGetDocumentsOptions['limit']): this,
+  getCount(): Promise<number>,
+  getDocuments(): Promise<GenericObject[]>,
+  Manager(): DocumentModelInstance<BaseDocument & Partial<T>>,
+}
