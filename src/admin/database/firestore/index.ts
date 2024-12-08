@@ -4,6 +4,8 @@ const firestore = admin.firestore();
 
 export default firestore;
 
+export { default as createModel } from "./Model";
+export { default as createRepository } from "./Repository";
 export { default as deleteDocument } from "./deleteDocument";
 export { default as generateQuery } from './generateQuery';
 export { default as getCollectionRef } from './getCollectionRef';
