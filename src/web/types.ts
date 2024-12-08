@@ -52,7 +52,7 @@ export interface WebModule {
   signIn: (params: ISignIn) => Promise<UserCredential>,
   signOut: () => Promise<void>,
   createModel: <T>(collection: string, schema: Partial<T>, data?: GenericObject) => DocumentModelInstance<BaseDocument & typeof data>,
-  createRepository: (name: string, schema: GenericObject) => (new () => ICollectionModel),
+  createRepository: <T>(name: string, schema: GenericObject) => (new () => ICollectionModel<T>),
   FirestoreProvider: ({ children }: { children: any }) => React.JSX.Element,
   generateQuery: (collection: string, options?: IGetDocumentsOptions) => Query,
   getDocument: (collection: string, documentId: string) => Promise<GenericObject|null>,
