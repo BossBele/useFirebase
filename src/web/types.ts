@@ -40,6 +40,7 @@ export interface WebModule {
    */
   init(options: FirebombOptions): void,
   getApp(): FirebaseApp,
+  getApps(): FirebaseApp[],
   AuthProvider: ({ children }: { children: any }) => React.JSX.Element,
   useAuth: () => UserState,
   getAuth: (app?: FirebaseApp) => Auth|null,
