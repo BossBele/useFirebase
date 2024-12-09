@@ -1,6 +1,4 @@
 import { Timestamp } from "firebase/firestore";
-import setDocument from "./setDocument";
-import setDocumentServerSide from "../../../admin/database/firestore/setDocument";
 import { isServer } from "../../utils";
 import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModelClass } from "./types";
 
@@ -105,11 +103,8 @@ class DocumentModel implements IDocumentModelClass {
     if (!this.hasChanged()) {
       return false;
     }
-    if (isServer()) {
-      await setDocumentServerSide(this.collection, this.id, this.getChanges());
-    } else {
-      await setDocument(this.collection, this.id, this.getChanges());
-    }
+    const setDocument = require(isServer() ? '../../../admin/database/firestore/setDocument': './setDocument');
+    await setDocument(this.collection, this.id, this.getChanges());
     this.resetChanges();
     return this.data;
   }
