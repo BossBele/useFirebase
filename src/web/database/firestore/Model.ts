@@ -1,6 +1,6 @@
-import { Timestamp } from "firebase/firestore";
-import { isServer } from "../../utils";
-import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModelClass } from "./types";
+import { Timestamp } from 'firebase/firestore';
+import setDocument from './setDocument';
+import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModelClass } from './types';
 
 // Type guard for Firestore timestamp
 function isFirestoreTimestamp(value: any): value is Timestamp {
@@ -103,7 +103,6 @@ class DocumentModel implements IDocumentModelClass {
     if (!this.hasChanged()) {
       return false;
     }
-    const setDocument = require(isServer() ? '../../../admin/database/firestore/setDocument': './setDocument');
     await setDocument(this.collection, this.id, this.getChanges());
     this.resetChanges();
     return this.data;
