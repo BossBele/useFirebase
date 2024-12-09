@@ -1,5 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import setDocument from "./setDocument";
+import setDocumentServerSide from "../../../admin/database/firestore/setDocument";
+import { isServer } from "../../utils";
 import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModelClass } from "./types";
 
 // Type guard for Firestore timestamp
@@ -103,7 +105,11 @@ class DocumentModel implements IDocumentModelClass {
     if (!this.hasChanged()) {
       return false;
     }
-    await setDocument(this.collection, this.id, this.getChanges());
+    if (isServer()) {
+      await setDocumentServerSide(this.collection, this.id, this.getChanges());
+    } else {
+      await setDocument(this.collection, this.id, this.getChanges());
+    }
     this.resetChanges();
     return this.data;
   }
