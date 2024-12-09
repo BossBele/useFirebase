@@ -1,6 +1,7 @@
+import getDocuments from "./getDocuments";
+import getDocumentsCount from "./getDocumentsCount";
 import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionModel, IGetDocumentsOptions } from "./types";
 import { createModel } from "./Model";
-import { isServer } from "../../utils";
 
 class CollectionModel<T> implements ICollectionModel<T> {
   [key: string]: any;
@@ -21,7 +22,6 @@ class CollectionModel<T> implements ICollectionModel<T> {
   }
 
   private async obtainCount(): Promise<number> {
-    const getDocumentsCount = require(isServer() ? '../../../admin/database/firestore/getDocumentsCount': './getDocumentsCount');
     const count = await getDocumentsCount(this.name, this.constraints);
     this.setCount(count);
     this.hasBeenCounted = true;
@@ -29,7 +29,6 @@ class CollectionModel<T> implements ICollectionModel<T> {
   }
 
   private async obtainDocuments(): Promise<GenericObject[]> {
-    const getDocuments = require(isServer() ? '../../../admin/database/firestore/getDocuments': './getDocuments');
     const documents = await getDocuments(this.name, this.constraints);
     this.setDocuments(documents);
     this.hasBeenFetched = true;
