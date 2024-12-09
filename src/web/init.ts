@@ -9,8 +9,9 @@ import { FirebombOptions } from './types';
 
 export default function init(
   clientCredentials: FirebaseOptions,
-  { useAuth = true, useFirestore = true, ...options}: FirebombOptions,
+  firebombOptions?: FirebombOptions,
 ) {
+  const { useAuth = true, useFirestore = true, ...options } = firebombOptions || {};
   // Check that `window` is in scope for the modules!
   if (typeof window !== 'undefined' && !getApps().length) {
     const app = initializeApp(clientCredentials);
