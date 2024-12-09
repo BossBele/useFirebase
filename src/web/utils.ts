@@ -44,4 +44,9 @@ export function getSessionItem(queryKey: string): any {
 export function setSessionItem(queryKey: string, item: any): void {
   sessionStorage.setItem(queryKey, JSON.stringify(item));
 }
-  
+
+export function isServer(): boolean {
+  return typeof window === "undefined" &&
+    typeof process !== "undefined" &&
+    (Boolean(process.versions && process.versions.node) || process.env.RUNTIME_ENV === 'node');
+}
