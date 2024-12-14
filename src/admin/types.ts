@@ -1,16 +1,21 @@
 import type { App } from 'firebase-admin/app';
-import type { ActionCodeSettings, Auth } from 'firebase-admin/auth';
+import type { ActionCodeSettings, Auth, TenantAwareAuth, UserRecord } from 'firebase-admin/auth';
 import type { CollectionReference, DocumentData, DocumentReference, Firestore, Query } from 'firebase-admin/firestore';
 import type { Messaging } from 'firebase-admin/messaging';
 import type { IDocumentsQueryOptions } from './database/firestore/types';
 import type { GenericObject, IGetDocumentsOptions } from '../web/database/firestore/types';
+import type { IAuthOptions } from './auth/types';
 
 export interface AdminModule {
   admin: object,
   auth: Auth,
   generateEmailVerificationLink: (email: string, actionCodeSettings?: ActionCodeSettings) => Promise<string>,
   generatePasswordResetLink: (email: string, actionCodeSettings?: ActionCodeSettings) => Promise<string>,
-  getAuth: (app?: App) => Auth,
+  getAuth: (param?: App|IAuthOptions) => Auth|TenantAwareAuth,
+  getCurrentUser: (options: IAuthOptions) => Promise<UserRecord>,
+  getSession: () => string,
+  isUserAuthenticated: (session?: string, options?: IAuthOptions) => Promise<boolean>,
+  revokeSession: (session: string, options: IAuthOptions) => Promise<void>,
   firestore: Firestore,
   getFirestore: (app?: App) => Firestore,
   deleteDocument: (collection: string, document: string) => Promise<FirebaseFirestore.WriteResult>
