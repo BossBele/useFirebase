@@ -5,11 +5,10 @@ import React, {
   useMemo,
   useState
 } from 'react'
-import cookie from '@boiseitguru/cookie-cutter';
+import cookies from '@boiseitguru/cookie-cutter';
 import { getIdTokenResult, onIdTokenChanged } from 'firebase/auth';
 import getAuth from "./getAuth";
-
-const auth = getAuth();
+import getCurrentUser from './getCurrentUser';
 
 /**
  * @type {{user: User|null }} AuthContext
@@ -37,27 +36,23 @@ export default function Provider({ children }) {
 
   // listen for token changes
   // call setUser and write new token as a cookie
-  useEffect(() => {
-    if (auth && onIdTokenChanged) {
-      onIdTokenChanged(auth, async (user) => {
-        if (!user) {
-          setUser(null);
-          setClaims(null);
-          cookie.set('token', '', { path: '/', secure: true });
-        } else {
-          const { token, claims: userClaims } = await getIdTokenResult(user);
-          setUser(user);
-          setClaims(userClaims);
-          cookie.set('token', token, { path: '/', secure: true });
-        }
-      });
+  useEffect(() => onIdTokenChanged(getAuth(), async (user) => {
+    if (!user) {
+      setUser(null);
+      setClaims(null);
+      cookies().set('__token', '', { path: '/', secure: true });
+    } else {
+      const { token, claims: userClaims } = await getIdTokenResult(user);
+      setUser(user);
+      setClaims(userClaims);
+      cookies().set('__token', token, { path: '/', secure: true });
     }
-  }, []);
+  }), []);
 
   // force refresh the token every 60 minutes
   useEffect(() => {
     const handle = setInterval(async () => {
-      const user = auth.currentUser
+      const user = getCurrentUser();
       if (user) await user.getIdToken(true)
     }, 60 * 60 * 1000)
 
