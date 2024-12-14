@@ -8,6 +8,6 @@ export default async function createSessionCookie(
 ): Promise<string> {
   const auth = getAuth();
   const session = await auth.createSessionCookie(idToken, sessionCookieOptions);
-  cookies.set('__session', session, { secure: true, ...sessionCookieOptions });
+  cookies().set('__session', session, { secure: true, ...sessionCookieOptions });
   return session;
 }
