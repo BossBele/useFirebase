@@ -31,6 +31,7 @@ export default function useCollection({
             return getStorage(collection);
         case 'session':
             return getSessionItem(collection);
+        case 'none':
         default:
             break;
     }
