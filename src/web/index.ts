@@ -31,3 +31,5 @@ export {
 } from './database/firestore';
 
 export { callFunction } from './functions';
+
+export { AppNotificationsProvider, getMessaging, useAppNotifications } from './messaging';
