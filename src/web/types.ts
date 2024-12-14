@@ -3,6 +3,8 @@ import type { Auth, EmailAuthCredential, User, UserCredential } from "firebase/a
 import type { Firestore, Query } from "firebase/firestore";
 import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionModel, IGetDocumentsOptions, IUseCollection, IUseCollectionValue, IUseCount, IUseCountValue, IUseDocument, IUseDocumentValue, IUseFirestore } from "./database/firestore/types";
 import type { ISignIn, UserState } from "./auth/types";
+import type { Messaging } from "firebase/messaging";
+import type { IAppNotificationsContext } from "./messaging/types";
 
 export interface FirebombOptions {
   /**
@@ -64,4 +66,7 @@ export interface WebModule {
   useDocument: (params: IUseDocument) => IUseDocumentValue,
   useFirestore: () => IUseFirestore,
   callFunction: (name: string, payload: object) => Promise<any>;
+  getMessaging: (app?: FirebaseApp) => Messaging,
+  AppNotificationsProvider: ({ children }: { children: any }) => React.JSX.Element,
+  useAppNotifications: () => IAppNotificationsContext,
 }
