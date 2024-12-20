@@ -81,7 +81,7 @@ class DocumentModel implements IDocumentModelClass {
     this.id = value;
   }
 
-  public setData = (data: GenericObject): void => {
+  public set = (data: GenericObject): void => {
     for (const key in data) {
       this.setValue(key, data[key]);
     }
@@ -116,13 +116,16 @@ class DocumentModel implements IDocumentModelClass {
     return this.data;
   }
 
-  public async get(): Promise<void> {
+  public async get(): Promise<GenericObject> {
+    if (!this.id) {
+      throw new Error('Document ID is not set');
+    }
     const document = await getDocument(this.collection, this.id);
-    this.id = document?.id;
     if (document?.id) {
       delete document.id;
     }
     this.data = document;
+    return document;
   }
 
   public async delete(): Promise<void> {
