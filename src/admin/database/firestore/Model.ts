@@ -81,7 +81,7 @@ class DocumentModel implements IDocumentModelClass {
     this.id = value;
   }
 
-  public set = (data: GenericObject): void => {
+  public set(data: GenericObject): void {
     for (const key in data) {
       this.setValue(key, data[key]);
     }
