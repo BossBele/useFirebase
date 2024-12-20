@@ -1,3 +1,4 @@
+export { default as deleteDocument } from './deleteDocument';
 export { default as generateQuery } from './generateQuery';
 export { default as getFirestore } from './getFirestore';
 export { default as FirestoreProvider  } from './Provider';
