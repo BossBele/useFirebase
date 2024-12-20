@@ -107,6 +107,15 @@ export interface BaseDocumentModel {
    */
   setId(value: string): void,
   /**
+   * Sets the document data
+   * @param data - The data to set for the document
+   */
+  set(data: GenericObject): void,
+  /**
+   * Gets the document data as a JSON object
+   */
+  get(): Promise<GenericObject>,
+  /**
    * Gets the changes made to the document as JSON object
    */
   getChanges(): Partial<GenericObject>,
@@ -130,6 +139,10 @@ export interface BaseDocumentModel {
    * @returns - The updated document data or false if no changes were made
    */
   commit(): Promise<GenericObject|false>,
+  /**
+   * Deletes the document from the Firestore
+   */
+  delete(): Promise<void>,
   /**
    * Converts the document data to a JSON object
    */
