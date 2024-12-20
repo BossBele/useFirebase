@@ -1,4 +1,5 @@
 import { SignInMethod as SignInMethodFB, User } from "firebase/auth";
+import type { GenericObject } from "../database/firestore/types";
 
 export type SignInMethodFB = typeof SignInMethodFB[keyof typeof SignInMethodFB];
 
@@ -16,5 +17,7 @@ export interface ISignIn {
 }
 
 export interface UserState {
-  user: User | null
+  user: User | null,
+  claims: GenericObject | null,
+  refreshUser: () => Promise<void>,
 }
