@@ -1,6 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 import setDocument from './setDocument';
 import type { BaseDocument, DocumentModelInstance, GenericObject, IDocumentModelClass } from './types';
+import deleteDocument from './deleteDocument';
+import getDocument from './getDocument';
 
 // Type guard for Firestore timestamp
 function isFirestoreTimestamp(value: any): value is Timestamp {
@@ -79,6 +81,12 @@ class DocumentModel implements IDocumentModelClass {
     this.id = value;
   }
 
+  public set(data: GenericObject): void {
+    for (const key in data) {
+      this.setValue(key, data[key]);
+    }
+  }
+
   public getChanges(): GenericObject {
     const changes: GenericObject = {};
     this.changedFields.forEach((key) => {
@@ -106,6 +114,22 @@ class DocumentModel implements IDocumentModelClass {
     await setDocument(this.collection, this.id, this.getChanges());
     this.resetChanges();
     return this.data;
+  }
+
+  public async get(): Promise<GenericObject> {
+    if (!this.id) {
+      throw new Error('Document ID is not set');
+    }
+    const document = await getDocument(this.collection, this.id);
+    if (document?.id) {
+      delete document.id;
+    }
+    this.data = document;
+    return document;
+  }
+
+  public async delete(): Promise<void> {
+    await deleteDocument(this.collection, this.id);
   }
 
   public toJSON(): GenericObject {
