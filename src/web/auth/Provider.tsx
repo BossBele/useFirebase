@@ -9,18 +9,18 @@ import cookies from '@boiseitguru/cookie-cutter';
 import { getIdTokenResult, onIdTokenChanged } from 'firebase/auth';
 import getAuth from "./getAuth";
 import getCurrentUser from './getCurrentUser';
+import type { UserState } from './types';
 
-/**
- * @type {{user: User|null }} AuthContext
- */
-export const AuthContext = createContext({
+export const AuthContext = createContext<UserState>({
+  claims: null,
   user: null,
+  refreshUser: async () => { },
 });
 
 /**
  * @param {object} props
  * @param {React.ReactElement} props.children
- * @returns {React.ProviderProps<{user: User}>}
+ * @returns {React.ProviderProps<UserState>}
  */
 export default function Provider({ children }) {
   const [currentUser, setUser] = useState(null);
