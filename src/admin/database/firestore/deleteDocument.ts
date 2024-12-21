@@ -12,4 +12,3 @@ export default async function deleteDocument(collection: string, document: strin
   const writeTime = await firestore.collection(collection).doc(document).delete();
   return writeTime;
 }
-
