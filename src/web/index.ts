@@ -18,6 +18,8 @@ export {
 
 export {
   FirestoreProvider,
+  deleteDocument,
+  deleteDocuments,
   generateQuery,
   getDocument,
   getDocuments,
