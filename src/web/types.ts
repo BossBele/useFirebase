@@ -56,6 +56,8 @@ export interface WebModule {
   signOut: () => Promise<void>,
   createModel: <T>(collection: string, schema: Partial<T>, data?: GenericObject) => DocumentModelInstance<BaseDocument & typeof data>,
   createRepository: <T>(name: string, schema: GenericObject) => (new () => ICollectionModel<T>),
+  deleteDocument: (collection: string, document: string) => Promise<void>,
+  deleteDocuments: (collection: string, documents: string[]) => Promise<void>,
   FirestoreProvider: ({ children }: { children: any }) => React.JSX.Element,
   generateQuery: (collection: string, options?: IGetDocumentsOptions) => Query,
   getDocument: (collection: string, documentId: string) => Promise<GenericObject|null>,
