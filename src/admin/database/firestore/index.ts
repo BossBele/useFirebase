@@ -7,6 +7,7 @@ export default firestore;
 export { createModel } from "./Model";
 export { createRepository } from "./Repository";
 export { default as deleteDocument } from "./deleteDocument";
+export { default as deleteDocuments } from "./deleteDocuments";
 export { default as generateQuery } from './generateQuery';
 export { default as getCollectionRef } from './getCollectionRef';
 export { default as getDocument } from './getDocument';
