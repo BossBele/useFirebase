@@ -6,10 +6,9 @@ import getDocumentRef from "./getDocumentRef";
  * Delete firestore document
  * @param {string} collection - The collection name
  * @param {string} document - The document name
- * @returns {Promise<FirebaseFirestore.WriteResult>}
+ * @returns {Promise<void>}
  */
 export default async function deleteDocument(collection: string, document: string): Promise<void> {
   const ref = getDocumentRef(collection, document);
   await deleteDoc(ref);
 }
-
