@@ -18,7 +18,8 @@ export interface AdminModule {
   revokeSession: (session: string, options: IAuthOptions) => Promise<void>,
   firestore: Firestore,
   getFirestore: (app?: App) => Firestore,
-  deleteDocument: (collection: string, document: string) => Promise<FirebaseFirestore.WriteResult>
+  deleteDocument: (collection: string, document: string) => Promise<FirebaseFirestore.WriteResult>,
+  deleteDocuments: (collection: string, documents: string[]) => Promise<FirebaseFirestore.WriteResult[]>,
   generateQuery: (collection: string, options?: IDocumentsQueryOptions) => Query<DocumentData, DocumentData>,
   getCollectionRef: (collection: string) => CollectionReference,
   getDocument: (collection: string, document: string) => Promise<GenericObject|null>,
