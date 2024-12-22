@@ -1,13 +1,14 @@
 import getDocuments from "./getDocuments";
 import getDocumentsCount from "./getDocumentsCount";
-import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionModel, IGetDocumentsOptions } from "../../../web/database/firestore/types";
+import type { BaseDocument, DocumentModelInstance, GenericObject } from "../../../web/database/firestore/types";
 import { createModel } from "./Model";
+import type { IAdminCollectionModel, IDocumentsQueryOptions } from "./types";
 
-class CollectionModel<T> implements ICollectionModel<T> {
+class CollectionModel<T> implements IAdminCollectionModel<T> {
   [key: string]: any;
   private name: string;
   private schema: Partial<T>;
-  private constraints?: IGetDocumentsOptions;
+  private constraints?: IDocumentsQueryOptions;
   private documents: GenericObject[];
   private count: number;
   private hasBeenCounted?: boolean;
@@ -48,32 +49,45 @@ class CollectionModel<T> implements ICollectionModel<T> {
     return this.schema;
   }
 
-  public getConstraints(): IGetDocumentsOptions {
+  public getConstraints(): IDocumentsQueryOptions {
     return this.constraints;
   }
 
-  public withConstraints(constraints: IGetDocumentsOptions): this {
+  public withConstraints(constraints: IDocumentsQueryOptions): this {
     this.constraints = constraints;
     return this;
   }
 
-  public whereBy(constraint: IGetDocumentsOptions['whereBy']): this {
+  public whereBy(constraint: IDocumentsQueryOptions['whereBy']): this {
     this.constraints.whereBy = constraint;
     return this;
   }
 
-  public whereOr(constraint: IGetDocumentsOptions['whereOr']): this {
+  public whereOr(constraint: IDocumentsQueryOptions['whereOr']): this {
     this.constraints.whereOr = constraint;
     return this;
   }
 
-  public orderBy(constraint: IGetDocumentsOptions['orderBy']): this {
+  public orderBy(constraint: IDocumentsQueryOptions['orderBy']): this {
     this.constraints.orderBy = constraint;
     return this;
   }
 
-  public limit(constraint: IGetDocumentsOptions['limit']): this {
+  public limit(constraint: IDocumentsQueryOptions['limit']): this {
     this.constraints.limit = constraint;
+    return this;
+  }
+
+  public select(constraint: IDocumentsQueryOptions['select']): this {
+    this.constraints.select = constraint;
+    return this;
+  }
+
+  /**
+   * @description Enables fetching subcollections of the documents
+   */
+  public withSubcollections(): this {
+    this.constraints.withSubcollections = true;
     return this;
   }
 
@@ -119,7 +133,7 @@ class CollectionModel<T> implements ICollectionModel<T> {
  * @param schema - A javascript object that represents the schema of the collection
  * @returns A new class that extends CollectionModel
  */
-function createRepository<T>(name: string, schema: Partial<T>): new () => ICollectionModel<T> {
+function createRepository<T>(name: string, schema: Partial<T>): new () => IAdminCollectionModel<T> {
   return class Repository extends CollectionModel<T> {
     constructor() {
       super(name, schema);
@@ -130,6 +144,6 @@ function createRepository<T>(name: string, schema: Partial<T>): new () => IColle
 
 export { 
   CollectionModel,
-  type ICollectionModel,
+  type IDocumentsQueryOptions,
   createRepository,
 };
