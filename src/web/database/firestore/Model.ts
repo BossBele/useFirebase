@@ -107,13 +107,13 @@ class DocumentModel implements IDocumentModelClass {
     return fields.some(field => this.changedFields.has(field));
   }
 
-  public async commit(): Promise<GenericObject|false> {
+  public async commit(): Promise<string|false> {
     if (!this.hasChanged()) {
       return false;
     }
-    await setDocument(this.collection, this.id, this.getChanges());
+    const refId = await setDocument(this.collection, this.id, this.getChanges());
     this.resetChanges();
-    return this.data;
+    return refId;
   }
 
   public async get(): Promise<GenericObject> {
