@@ -138,7 +138,7 @@ export interface BaseDocumentModel {
    * If id was not set, a document with random firestore Id be created
    * @returns - The updated document data or false if no changes were made
    */
-  commit(): Promise<GenericObject|false>,
+  commit(): Promise<string|false>,
   /**
    * Deletes the document from the Firestore
    */
