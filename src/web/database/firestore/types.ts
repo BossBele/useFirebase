@@ -11,15 +11,16 @@ export enum PersistenceTypes {
 export interface IUseCollection {
   collection: string,
   constraints?: IGetDocumentsOptions,
-  enabled: boolean,
+  enabled?: boolean,
   persistence?: PersistenceType,
-  withRealtimeUpdates: boolean,
+  withRealtimeUpdates?: boolean,
+  withPagination?: boolean,
 }
 
 export interface IUseCollectionValue {
   isFetching: boolean,
   isFetched: boolean,
-  records: GenericObject[],
+  records: GenericObject[]|null,
 }
 
 export interface IUseDocument {
