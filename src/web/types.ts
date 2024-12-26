@@ -1,6 +1,6 @@
 import type { FirebaseApp } from "firebase/app";
 import type { Auth, EmailAuthCredential, User, UserCredential } from "firebase/auth";
-import type { Firestore, Query } from "firebase/firestore";
+import type { CollectionReference, DocumentData, DocumentReference, Firestore, Query } from "firebase/firestore";
 import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionModel, IGetDocumentsOptions, IUseCollection, IUseCollectionValue, IUseCount, IUseCountValue, IUseDocument, IUseDocumentValue, IUseFirestore } from "./database/firestore/types";
 import type { ISignIn, UserState } from "./auth/types";
 import type { Messaging } from "firebase/messaging";
@@ -61,7 +61,9 @@ export interface WebModule {
   FirestoreProvider: ({ children }: { children: any }) => React.JSX.Element,
   generateQuery: (collection: string, options?: IGetDocumentsOptions) => Query,
   getDocument: (collection: string, documentId: string) => Promise<GenericObject|null>,
+  getDocumentRef: (collection: string, documentId: string, databaseId?: string) => DocumentReference<DocumentData, DocumentData>,
   getDocuments: (collection: string, options?: IGetDocumentsOptions) => Promise<GenericObject[]>,
+  getCollectionRef: (collection: string, databaseId?: string) => CollectionReference<DocumentData, DocumentData>,
   getFirestore: () => Firestore|null,
   useCollection: (params: IUseCollection) => IUseCollectionValue,
   useCount: (props: IUseCount) => IUseCountValue,
