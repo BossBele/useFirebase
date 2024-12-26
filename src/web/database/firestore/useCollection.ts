@@ -42,11 +42,9 @@ export default function useCollection({
     return null;
   }, [store, collection]);
 
-  const isNotCached: boolean = useMemo(() => !cachedData, [cachedData]);
-
   const isEnabled: boolean = useMemo(() => {
-    return Boolean(collection) && enabled && isNotCached
-  }, [collection, enabled, isNotCached]);
+    return Boolean(collection) && enabled
+  }, [collection, enabled]);
 
   const query: Query = useMemo(() => generateQuery(collection, constraints), [collection, constraints]);
 
