@@ -2,10 +2,11 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react';
 import { getApps } from 'firebase/app';
-import { getDocs, onSnapshot, Query } from 'firebase/firestore';
+import { DocumentData, getDocs, onSnapshot, query as queryFn, Query, QueryDocumentSnapshot, startAfter } from 'firebase/firestore';
 import { IUseCollection, IUseCollectionValue } from './types';
 import useFirestore from './useFirestore';
 import { checkPersistenceSupport, getSessionItem, getStorage, setSessionItem, setStorage } from '../../utils';
@@ -16,9 +17,12 @@ export default function useCollection({
     enabled = true,
     persistence = 'context',
     withRealtimeUpdates = true,
-    constraints
+    constraints,
+    withPagination = false,
 }: IUseCollection): IUseCollectionValue {
   const { store, storeItem } = useFirestore();
+
+  const lastVisibleDoc = useRef<QueryDocumentSnapshot<DocumentData, DocumentData>|null>(null);
 
   const [isFetching, setIsFetching] = useState(false);
   const [records, setRecords] = useState(null);
@@ -41,7 +45,7 @@ export default function useCollection({
   const isNotCached: boolean = useMemo(() => !cachedData, [cachedData]);
 
   const isEnabled: boolean = useMemo(() => {
-    return collection && enabled && isNotCached
+    return Boolean(collection) && enabled && isNotCached
   }, [collection, enabled, isNotCached]);
 
   const query: Query = useMemo(() => generateQuery(collection, constraints), [collection, constraints]);
@@ -82,31 +86,44 @@ export default function useCollection({
     setIsFetching(true);
     let unsubscribe = () => {};
 
+    const finalQuery = lastVisibleDoc.current ? queryFn(query, startAfter(lastVisibleDoc.current)): query;
+
+    const results: object[] = [];
     if (withRealtimeUpdates) {
       // listen for firestore changes
-      unsubscribe = onSnapshot(query, (querySnapshot) => {
-        const results = [];
+      unsubscribe = onSnapshot(finalQuery, (querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
           const object = doc.data();
           results.push({ ...object, id: doc.id });
         });
-        handleOnResults(results);
+        if (withPagination && querySnapshot.docs.length) {
+          // Get the last visible document
+          lastVisibleDoc.current = querySnapshot.docs[querySnapshot.docs.length - 1];
+        }
       });
+    } else {
+      const querySnapshot = await getDocs(finalQuery);
+      querySnapshot.forEach((doc) => {
+          results.push({ ...doc.data(), id: doc.id });
+      });
+      if (withPagination && querySnapshot.docs.length) {
+        // Get the last visible document
+        lastVisibleDoc.current = querySnapshot.docs[querySnapshot.docs.length - 1];
+      }
     }
 
-    const querySnapshot = await getDocs(query);
-    const results = [];
-    querySnapshot.forEach((doc) => {
-        results.push({ ...doc.data(), id: doc.id });
-    });
-
+    handleOnResults(results);
     setIsFetching(false);
     return unsubscribe;
-  }, [query, isEnabled, handleOnResults, withRealtimeUpdates]);
+  }, [query, isEnabled, handleOnResults, withPagination, withRealtimeUpdates]);
 
   useEffect(() => {
     checkPersistenceSupport(persistence);
   }, [persistence]);
+
+  useEffect(() => {
+    getCollection();
+  }, [getCollection]);
 
   const value = useMemo(() => ({
     isFetching,
