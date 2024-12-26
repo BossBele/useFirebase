@@ -5,7 +5,7 @@ import { IGetDocumentsOptions } from './types';
 export default function generateQuery(collection: string, options?: IGetDocumentsOptions): Query {
   const firestore = getFirestore();
 
-  const queries = [];
+  const queries: any[] = [];
   if (options?.whereBy?.length) {
     options.whereBy.forEach(({ field, operator, value }) => {
       queries.push(where(field, operator, value));
