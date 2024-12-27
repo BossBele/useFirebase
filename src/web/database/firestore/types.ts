@@ -12,6 +12,7 @@ export interface IUseCollection {
   collection: string,
   constraints?: IGetDocumentsOptions,
   enabled?: boolean,
+  page?: number,
   persistence?: PersistenceType,
   withRealtimeUpdates?: boolean,
   withPagination?: boolean,
