@@ -1,4 +1,5 @@
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import getFunctions from './getFunctions';
 
 /**
  * @function callFunction
