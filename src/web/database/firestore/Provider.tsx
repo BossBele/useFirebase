@@ -10,8 +10,8 @@ import type { retrieveItem, storeItem } from './types';
  * @type {{store: any }} FirestoreContext
  */
 export const FirestoreContext = createContext({
-  storeItem: (key: string, i) => null,
-  retrieveItem: (key: string) => null
+  storeItem: (_key: string, _i) => null,
+  retrieveItem: (_key: string) => null
 });
 
 export default function Provider({ children }) {
