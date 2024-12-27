@@ -12,7 +12,6 @@ export interface IUseCollection {
   collection: string,
   constraints?: IGetDocumentsOptions,
   enabled?: boolean,
-  page?: number,
   persistence?: PersistenceType,
   withRealtimeUpdates?: boolean,
   withPagination?: boolean,
@@ -45,7 +44,6 @@ export type storeItem = (queryKey: string, item: any) => void;
 export interface IUseFirestore {
   retrieveItem: (queryKey: string) => void,
   storeItem: storeItem,
-  store: { [key: string]: any },
 }
 
 export type whereBy = {
