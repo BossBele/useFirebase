@@ -5,6 +5,7 @@ import type { BaseDocument, DocumentModelInstance, GenericObject, ICollectionMod
 import type { ISignIn, UserState } from "./auth/types";
 import type { Messaging } from "firebase/messaging";
 import type { IAppNotificationsContext } from "./messaging/types";
+import type { Functions } from "firebase/functions";
 
 export interface FirebombOptions {
   /**
@@ -69,6 +70,7 @@ export interface WebModule {
   useCount: (props: IUseCount) => IUseCountValue,
   useDocument: (params: IUseDocument) => IUseDocumentValue,
   useFirestore: () => IUseFirestore,
+  getFunctions: (app?: FirebaseApp) => Functions|null,
   callFunction: (name: string, payload: object) => Promise<any>;
   getMessaging: (app?: FirebaseApp) => Messaging,
   AppNotificationsProvider: ({ children }: { children: any }) => React.JSX.Element,
