@@ -2,42 +2,37 @@ import React, {
   createContext,
   useCallback,
   useMemo,
-  useState
+  useRef
 } from 'react';
-import { retrieveItem, storeItem } from './types';
+import type { retrieveItem, storeItem } from './types';
 
 /**
  * @type {{store: any }} FirestoreContext
  */
 export const FirestoreContext = createContext({
-  store: {},
   storeItem: (key: string, i) => null,
   retrieveItem: (key: string) => null
 });
 
 export default function Provider({ children }) {
-  const [store, setStore] = useState({});
+  const store = useRef({});
 
   const storeItem = useCallback<storeItem>((collection, docs) => {
-    if (!store[collection] || !store[collection].length !== docs.length) {
-      setStore((prevStore) => ({
-        ...prevStore,
-        [collection]: docs
-      }));
+    if (!store.current?.[collection] || !store.current?.[collection].length !== docs.length) {
+      store.current[collection] = docs;
     }
-  }, [store]);
+  }, []);
 
   const retrieveItem = useCallback<retrieveItem>((queryKey) => {
-    return store[queryKey];
-  }, [store]);
+    return store.current?.[queryKey];
+  }, []);
 
   const value = useMemo(
     () => ({
-      store,
       storeItem,
       retrieveItem
     }),
-    [store, storeItem, retrieveItem]
+    [storeItem, retrieveItem]
   );
 
   return (
