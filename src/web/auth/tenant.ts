@@ -1,3 +1,4 @@
+import getApp from "../getApp";
 import getAuth from "./getAuth";
 
 export async function getToken(): Promise<string> {
@@ -7,8 +8,10 @@ export async function getToken(): Promise<string> {
 }
 
 export function setTenant(tenant: string): void {
-  const auth = getAuth();
-  auth.tenantId = tenant;
+  if (getApp()) {
+    const auth = getAuth();
+    auth.tenantId = tenant;
+  }
 }
 
 export function getTenant(): string | null {
