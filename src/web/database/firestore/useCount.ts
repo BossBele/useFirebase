@@ -8,12 +8,14 @@ import { IUseCount, IUseCountValue } from './types';
 export default function useCount(props: IUseCount): IUseCountValue {
   const {
     collection,
-    constraints,
+    constraints: constraintsProp,
     enabled = true,
   } = props;
 
   const [count, setCount] = useState(0);
   const [isCounted, setIsCounted] = useState(false);
+
+  const constraints = useMemo(() => constraintsProp, [constraintsProp]);
 
   const isEnabled = useMemo(() => collection && enabled && !isCounted, [collection, enabled, isCounted]);
 
