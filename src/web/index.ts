@@ -34,6 +34,6 @@ export {
   createRepository,
 } from './database/firestore';
 
-export { callFunction } from './functions';
+export { callFunction, getFunctions } from './functions';
 
 export { AppNotificationsProvider, getMessaging, useAppNotifications } from './messaging';
