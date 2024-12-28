@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react';
 import { getApps } from 'firebase/app';
@@ -11,6 +12,8 @@ import useFirestore from './useFirestore';
 import { checkPersistenceSupport, getSessionItem, getStorage, setSessionItem, setStorage } from '../../utils';
 import generateQuery from './generateQuery';
 
+const EMPTY_FN = () => {};
+
 export default function useCollection({
     collection,
     enabled = true,
@@ -19,6 +22,8 @@ export default function useCollection({
     constraints: constraintsProp,
 }: IUseCollection): IUseCollectionValue {
   const { retrieveItem, storeItem } = useFirestore();
+
+  const unsubscribeFn = useRef(EMPTY_FN);
 
   const [isFetching, setIsFetching] = useState(false);
   const [records, setRecords] = useState(null);
@@ -88,20 +93,21 @@ export default function useCollection({
       }
 
       setIsFetching(true);
-      let unsubscribe = () => {};
 
-      const results: object[] = [];
       if (withRealtimeUpdates) {
         // listen for firestore changes
-        unsubscribe = onSnapshot(query, (querySnapshot) => {
+        const unsubscribe = onSnapshot(query, (querySnapshot) => {
+          const results: object[] = [];
           querySnapshot.forEach((doc) => {
             const object = doc.data();
             results.push({ ...object, id: doc.id });
           });
           handleOnResults(results);
         });
+        unsubscribeFn.current = unsubscribe;
       } else {
         const querySnapshot = await getDocs(query);
+        const results: object[] = [];
         querySnapshot.forEach((doc) => {
             results.push({ ...doc.data(), id: doc.id });
         });
@@ -109,9 +115,13 @@ export default function useCollection({
       }
 
       setIsFetching(false);
-      return unsubscribe;
     }
     getCollection();
+    return () => {
+      if (typeof unsubscribeFn.current === 'function') {
+        unsubscribeFn.current();
+      }
+    };
   }, [getCachedData, constraints?.limit, query, isEnabled, handleOnResults, withRealtimeUpdates]);
 
   const value = useMemo(() => ({
