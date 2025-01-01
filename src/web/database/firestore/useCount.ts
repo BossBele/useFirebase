@@ -17,7 +17,7 @@ export default function useCount(props: IUseCount): IUseCountValue {
 
   const constraints = useMemo(() => constraintsProp, [constraintsProp]);
 
-  const isEnabled = useMemo(() => collection && enabled && !isCounted, [collection, enabled, isCounted]);
+  const isEnabled = useMemo(() => collection && enabled, [collection, enabled]);
 
   const isEmpty = useMemo(() => isCounted && count === 0, [count, isCounted]);
 
