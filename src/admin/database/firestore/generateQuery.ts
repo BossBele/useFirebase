@@ -3,7 +3,7 @@ import getFirestore from "./getFirestore";
 import { IDocumentsQueryOptions } from "./types";
 
 export default function generateQuery(collection: string, options?: IDocumentsQueryOptions): Query<DocumentData, DocumentData> {
-  const firestore = getFirestore();
+  const firestore = getFirestore(options?.databaseId);
 
   const store = firestore.collection(collection);
 
