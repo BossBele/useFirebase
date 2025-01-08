@@ -1,6 +1,7 @@
 import { ICollectionModel, IGetDocumentsOptions } from "../../../web/database/firestore/types";
 
 export interface IDocumentsQueryOptions extends IGetDocumentsOptions {
+  databaseId?: string,
   select?: string[],
   withSubcollections?: boolean,
 }
