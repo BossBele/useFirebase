@@ -26,6 +26,7 @@ export {
   getDocuments,
   getFirestore,
   getCollectionRef,
+  setDocument,
   useCollection,
   useCount,
   useDocument,
