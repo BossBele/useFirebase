@@ -22,7 +22,7 @@ export default async function setDocument(collection: string, arg2: string|Gener
     await setDoc(docRef, form, { merge: true });
   } else {
     const collectionRef = getCollectionRef(collection);
-    const docRef = await addDoc(collectionRef, form);
+    const docRef = await addDoc(collectionRef, arg2);
     refId = docRef.id;
   }
   return refId;
