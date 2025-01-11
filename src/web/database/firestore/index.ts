@@ -10,6 +10,7 @@ export { default as getDocumentRef } from './getDocumentRef';
 export { default as getDocuments } from './getDocuments';
 export { default as getDocumentsCount } from './getDocumentsCount';
 export { default as setDocument } from './setDocument';
+export { default as setDocuments } from './setDocuments';
 export { default as useCollection } from './useCollection';
 export { default as useCount } from './useCount';
 export { default as useDocument } from './useDocument';
