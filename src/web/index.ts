@@ -39,3 +39,5 @@ export {
 export { callFunction, getFunctions } from './functions';
 
 export { AppNotificationsProvider, getMessaging, useAppNotifications } from './messaging';
+
+export { getStorage, uploadFile, uploadFiles, uploadUserPhoto } from './storage';
