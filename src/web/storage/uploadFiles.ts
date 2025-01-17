@@ -9,7 +9,7 @@ import type { StorageFile, UploadResult } from './types';
  * @param {boolean} [shouldSeparatePath] - Whether output images and paths separately as array of strings or combine them as array of objects
  * @returns {Promise<{ images: string[], imagePaths: string[] }|UploadResult[]>}
  */
-export default async function uploadFiles(files: StorageFile[], pathname: string, shouldSeparatePath?: boolean): Promise<{ images: string[], imagePaths: string[] }|UploadResult[]> {
+export default async function uploadFiles(files: StorageFile[], pathname: string, shouldSeparatePath?: boolean): Promise<{ files: string[], filePaths: string[] }|UploadResult[]> {
   if (!files?.length) {
     throw new Error('No image/file passed');
   }
@@ -22,8 +22,8 @@ export default async function uploadFiles(files: StorageFile[], pathname: string
     if (typeof extension === 'string' && extension?.length <= 4) {
       hasExtension = true;
     }
-    const imagePath = hasExtension ? pathname : `${pathname}/${(file as File)?.name ?? Math.random().toString(36).substring(2)}`;
-    const storageRef = ref(storage, imagePath);
+    const filePath = hasExtension ? pathname : `${pathname}/${(file as File)?.name ?? Math.random().toString(36).substring(2)}`;
+    const storageRef = ref(storage, filePath);
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -61,7 +61,7 @@ export default async function uploadFiles(files: StorageFile[], pathname: string
         async () => {
           try {
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve({ downloadURL, imagePath } as UploadResult);
+            resolve({ downloadURL, filePath } as UploadResult);
           } catch (error) {
             reject(error);
           }
@@ -73,9 +73,9 @@ export default async function uploadFiles(files: StorageFile[], pathname: string
   const results = await Promise.all(uploadTasks);
 
   if (shouldSeparatePath) {
-    const images = results.map((result) => result.downloadURL);
-    const imagePaths = results.map((result) => result.imagePath);
-    return { images, imagePaths };
+    const files = results.map((result) => result.downloadURL);
+    const filePaths = results.map((result) => result.filePath);
+    return { files, filePaths };
   }
   return results;
 }
