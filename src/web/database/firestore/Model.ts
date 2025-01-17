@@ -50,7 +50,7 @@ class DocumentModel implements IDocumentModelClass {
     const value = this.data[key];
 
     // if field does not exist in schema, throw an error
-    if (this.isExistentField(key)) {
+    if (!this.isExistentField(key)) {
       throw new Error(`Field '${key as string}' does not exist in the schema`);
     }
 
@@ -62,7 +62,7 @@ class DocumentModel implements IDocumentModelClass {
   }
 
   private setValue<K extends keyof GenericObject>(key: string, value: GenericObject[K]) {
-    if (this.isExistentField(key)) {
+    if (!this.isExistentField(key)) {
       throw new Error(`Field '${key as string}' does not exist in the schema`);
     }
     this.data[key] = value;
