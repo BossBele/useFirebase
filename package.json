@@ -1,6 +1,6 @@
 {
   "name": "firebomb",
-  "version": "2.0.42-beta",
+  "version": "2.0.43-beta",
   "description": "Lightweight and Optimal way to use firebase in React.",
   "author": "BossBele",
   "license": "MIT",
