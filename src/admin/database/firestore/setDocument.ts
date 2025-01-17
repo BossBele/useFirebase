@@ -21,7 +21,7 @@ export default async function setDocument(collection: string, arg2: string|Gener
     // documentId provided
     await collectionRef.doc(arg2).set(form, { merge: true });
   } else {
-    const docRef = await collectionRef.add(form);
+    const docRef = await collectionRef.add(arg2);
     refId = docRef.id;
   }
   return refId;
