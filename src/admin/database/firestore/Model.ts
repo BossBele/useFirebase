@@ -111,7 +111,13 @@ class DocumentModel implements IDocumentModelClass {
     if (!this.hasChanged()) {
       return false;
     }
-    const refId = await setDocument(this.collection, this.id, this.getChanges());
+
+    let refId: string;
+    if (this.id) {
+      refId = await setDocument(this.collection, this.id, this.getChanges());
+    } else {
+      refId = await setDocument(this.collection, this.getChanges());
+    }
     this.resetChanges();
     return refId;
   }
