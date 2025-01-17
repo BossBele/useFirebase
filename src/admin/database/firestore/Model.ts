@@ -23,7 +23,7 @@ class DocumentModel implements IDocumentModelClass {
 
     this.collection = collection;
     this.id = id;
-    this.data = data ?? null;
+    this.data = data ?? {};
     this.schema = schema;
     this.changedFields = new Set();
     this.generateAccessors();
