@@ -6,6 +6,8 @@ import type { ISignIn, UserState } from "./auth/types";
 import type { Messaging } from "firebase/messaging";
 import type { IAppNotificationsContext } from "./messaging/types";
 import type { Functions } from "firebase/functions";
+import type { FirebaseStorage } from "firebase/storage";
+import type { StorageFile, UploadResult } from "./storage/types";
 
 export interface FirebombOptions {
   /**
@@ -70,6 +72,10 @@ export interface WebModule {
   useCount: (props: IUseCount) => IUseCountValue,
   useDocument: (params: IUseDocument) => IUseDocumentValue,
   useFirestore: () => IUseFirestore,
+  getStorage: (app?: FirebaseApp) => FirebaseStorage|null,
+  uploadFile: (file: StorageFile, pathname: string) => Promise<UploadResult|null>,
+  uploadFiles: (files: StorageFile[], pathname: string, shouldSeparatePath?: boolean) => Promise<{ files: string[], filePaths: string[] }|UploadResult[]>,
+  uploadUserPhoto: (blobFile: Blob, withoutDownloadLink?: boolean) => Promise<string>,
   getFunctions: (app?: FirebaseApp) => Functions|null,
   callFunction: (name: string, payload: object) => Promise<any>;
   getMessaging: (app?: FirebaseApp) => Messaging,
