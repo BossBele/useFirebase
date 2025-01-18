@@ -131,7 +131,7 @@ Example:
 ```typescript
 import { getDocuments } from "firebomb/web";
 
-const documents = getDocuments("users", { whereBy: [{ field: 'active', operator: '==', value: true }] });
+const documents = await getDocuments("users", { whereBy: [{ field: 'active', operator: '==', value: true }] });
 console.log(documents);
 ```
 
