@@ -30,7 +30,7 @@ class DocumentModel implements IDocumentModelClass {
   }
 
   private isExistentField(key: string|number): boolean {
-    return typeof this.schema[key] !== 'undefined';
+    return key === 'id' || typeof this.schema[key] !== 'undefined';
   }
 
   private generateAccessors() {
