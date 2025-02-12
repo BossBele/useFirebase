@@ -36,6 +36,10 @@ export interface FirebombOptions {
    * use this to enable Firebase Cloud Messaging
    */
   useMessaging?: boolean,
+  /**
+   * use this to enable Firebase Storage
+   */
+  useStorage?: boolean,
 }
 
 export interface WebModule {
