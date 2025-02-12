@@ -5,6 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { getFunctions } from 'firebase/functions';
 import { getMessaging } from "firebase/messaging";
+import { getStorage } from "firebase/storage";
 import { FirebombOptions } from './types';
 
 export default function init(
@@ -34,6 +35,10 @@ export default function init(
 
     if (options?.useMessaging) {
       getMessaging(app);
+    }
+
+    if (options?.useStorage) {
+      getStorage(app);
     }
 
     if (options?.useAnalytics) {
