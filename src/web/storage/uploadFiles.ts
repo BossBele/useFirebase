@@ -16,18 +16,18 @@ export default async function uploadFiles(files: StorageFile[], pathname: string
 
   const storage = getStorage();
   const uploadTasks:Promise<UploadResult>[] = files.map(async (file: StorageFile) => {
-    const extensions = pathname.split('.');
-    const extension = extensions[extensions.length - 1];
-    let hasExtension = false;
-    if (typeof extension === 'string' && extension?.length <= 4) {
-      hasExtension = true;
-    }
-    const filePath = hasExtension ? pathname : `${pathname}/${(file as File)?.name ?? Math.random().toString(36).substring(2)}`;
-    const storageRef = ref(storage, filePath);
-
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
     return new Promise((resolve, reject) => {
+      const extensions = pathname.split('.');
+      const extension = extensions[extensions.length - 1];
+      let hasExtension = false;
+      if (typeof extension === 'string' && extension?.length <= 4) {
+        hasExtension = true;
+      }
+      const filePath = hasExtension ? pathname : `${pathname}/${(file as File)?.name ?? Math.random().toString(36).substring(2)}`;
+      const storageRef = ref(storage, filePath);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
       uploadTask.on(
         'state_changed',
         (snapshot) => {
