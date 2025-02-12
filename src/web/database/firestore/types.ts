@@ -164,6 +164,7 @@ export type DocumentModelInstance<T extends BaseDocument> = {
 
 export interface ICollectionModel<T> {
   getName(): string,
+  appendSubcollectionName(name: string): void,
   setSubcollectionName(name: string): void,
   getSchema(): GenericObject,
   getConstraints(): IGetDocumentsOptions,
