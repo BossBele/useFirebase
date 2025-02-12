@@ -30,7 +30,7 @@ export default async function uploadFile(file: StorageFile, pathname: string): P
       'state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
+        console.log(`Upload is ${progress}% done`, snapshot.bytesTransferred, snapshot.totalBytes, snapshot);
         switch (snapshot.state) {
           case 'paused':
             console.log('Upload is paused');
@@ -57,12 +57,8 @@ export default async function uploadFile(file: StorageFile, pathname: string): P
         reject(error);
       },
       async () => {
-        try {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve({ downloadURL, filePath } as UploadResult);
-        } catch (error) {
-          reject(error);
-        }
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        resolve({ downloadURL, filePath } as UploadResult);
       }
     );
   });
