@@ -6,6 +6,7 @@ import { createModel } from "./Model";
 class CollectionModel<T> implements ICollectionModel<T> {
   [key: string]: any;
   private name: string;
+  private originalName: string;
   private schema: Partial<T>;
   private constraints?: IGetDocumentsOptions;
   private documents: GenericObject[];
@@ -15,6 +16,7 @@ class CollectionModel<T> implements ICollectionModel<T> {
 
   constructor(name: string, schema: Partial<T>) {
     this.name = name;
+    this.originalName = name;
     this.schema = schema;
     this.count = 0;
     this.constraints = {};
@@ -40,6 +42,10 @@ class CollectionModel<T> implements ICollectionModel<T> {
   }
 
   public setSubcollectionName(name: string): void {
+    this.name = `${this.originalName}/${name}`.replace('//', '/');
+  }
+
+  public appendSubcollectionName(name: string): void {
     this.name += `/${name}`.replace('//', '/');
   }
 
